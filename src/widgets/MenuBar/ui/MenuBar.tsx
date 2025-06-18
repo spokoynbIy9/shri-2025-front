@@ -9,13 +9,11 @@ import { RoutePath } from '../../../shared/config/routes';
 export const MenuBar = () => {
   const location = useLocation();
 
-  console.log(location.pathname);
-
   const MenuConfig = [
     {
       id: 1,
       image: analysImg,
-      text: 'CSV Аналитика',
+      text: 'CSV Аналитик',
       needPath: RoutePath.AnalyseCSV,
     },
     {

@@ -1,0 +1,10 @@
+.btn {
+  max-width: 70px;
+  max-height: 70px;
+  cursor: pointer;
+  padding: 19px;
+  background-color: #201b10;
+  font-size: initial;
+  border: none;
+  border-radius: 10px;
+}

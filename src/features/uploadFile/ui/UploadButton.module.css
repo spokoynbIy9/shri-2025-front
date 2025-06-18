@@ -1,0 +1,18 @@
+.container_btn {
+  display: flex;
+  align-items: center;
+}
+
+.btn {
+  cursor: pointer;
+  width: 360px;
+  padding: 17px 0;
+  background: #fff;
+  border: none;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.btn__uploaded {
+  background: #cb81ff;
+}
