@@ -1,0 +1,12 @@
+:root {
+  --space-s: 8px;
+  --space-xl: calc(var(--space-s) * 5);
+  --page-width: calc(100vw - var(--space-xl));
+
+  --font-size-s: 20px;
+  --font-size-m: 30px;
+  --font-size-l: 35px;
+  --font-size-xl: 40px;
+
+  --bg-color: #fce2ff;
+}

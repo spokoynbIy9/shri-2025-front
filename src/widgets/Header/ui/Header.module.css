@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo_wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.logo_img {
+  margin-right: 40px;
+}
