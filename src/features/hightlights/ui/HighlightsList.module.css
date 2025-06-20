@@ -1,0 +1,14 @@
+.container {
+  margin-top: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.text {
+  text-align: center;
+  color: #cb81ff;
+  font-size: var(--font-size-xl);
+}

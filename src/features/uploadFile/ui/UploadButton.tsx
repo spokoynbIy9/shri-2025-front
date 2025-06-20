@@ -1,17 +1,30 @@
-import { useEffect, useRef, useState, type FC } from 'react';
+import { useRef, type FC } from 'react';
 import { CrossButton } from '../../../shared/ui/CrossButton';
 import styles from './UploadButton.module.css';
 import classNames from 'classnames';
+import { useUploadStore } from '../model/store';
+import { useAnalyseStore } from '../../analyseFile/model/store';
 
 interface UploadButtonProps {
-  updateStateAnalyseBtn: (isUploadedFile: boolean) => void;
+  hasError: boolean;
+  isAnalyzing: boolean;
+  isFinishedAnalyse: boolean;
 }
 
 export const UploadButton: FC<UploadButtonProps> = ({
-  updateStateAnalyseBtn,
+  hasError,
+  isAnalyzing,
+  isFinishedAnalyse,
 }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
+  const file = useUploadStore((state) => state.file);
+  const setUploaded = useUploadStore((state) => state.setUploaded);
+  const setFile = useUploadStore((state) => state.setFile);
+
+  const setIsFinished = useAnalyseStore((state) => state.setIsFinished);
+
+  // todo
+  // replace on isProcessing from Analysestate
 
   const handleClick = () => {
     fileInputRef.current?.click();
@@ -20,7 +33,8 @@ export const UploadButton: FC<UploadButtonProps> = ({
   const uploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setFileName(file.name);
+      setFile(file);
+      setUploaded(true);
     }
   };
 
@@ -28,9 +42,11 @@ export const UploadButton: FC<UploadButtonProps> = ({
     (event.target as HTMLInputElement).value = '';
   };
 
-  useEffect(() => {
-    updateStateAnalyseBtn(!!fileName);
-  }, [fileName, updateStateAnalyseBtn]);
+  const deleteFile = () => {
+    setFile(null);
+    setUploaded(false);
+    setIsFinished(false);
+  };
 
   return (
     <div className={styles.container_btn}>
@@ -42,13 +58,30 @@ export const UploadButton: FC<UploadButtonProps> = ({
         onClick={resetLastFile}
       />
       <button
-        className={classNames(styles.btn, { [styles.btn__uploaded]: fileName })}
+        className={classNames(styles.btn, {
+          [styles.btn__processing]: !hasError && file?.name && isAnalyzing,
+          [styles.btn__uploaded]: !hasError && file?.name && !isFinishedAnalyse,
+          [styles.btn__failed]: hasError && file?.name,
+          [styles.btn__finishedProcessing]: isFinishedAnalyse,
+          [styles.btn__disabled]: file?.name,
+        })}
         onClick={handleClick}
+        disabled={Boolean(file?.name)}
       >
-        {fileName ? fileName : 'Загрузить файл'}
+        {file?.name ? (
+          !isAnalyzing ? (
+            file?.name
+          ) : (
+            <span className={styles.loader}></span>
+          )
+        ) : (
+          'Загрузить файл'
+        )}
       </button>
 
-      {fileName && <CrossButton onClick={() => setFileName(null)} />}
+      {file?.name && !hasError && !isAnalyzing && (
+        <CrossButton onClick={deleteFile} />
+      )}
     </div>
   );
 };

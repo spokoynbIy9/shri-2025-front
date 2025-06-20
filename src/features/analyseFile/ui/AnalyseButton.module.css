@@ -14,3 +14,7 @@
   color: #787878;
   cursor: default;
 }
+
+.btn__fadeout {
+  display: none;
+}

@@ -14,6 +14,15 @@
   border: 1px solid #201b10;
 }
 
+.container__failed {
+  background-color: transparent;
+  border: 1px solid #ff5f00;
+}
+
 .notification {
   margin-top: 10px;
+}
+
+.notification__error {
+  color: #ff5f00;
 }

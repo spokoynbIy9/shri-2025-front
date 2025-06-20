@@ -1,26 +1,43 @@
-import { type FC } from 'react';
 import { UploadButton } from './UploadButton';
 import styles from './UploadContainer.module.css';
 import classNames from 'classnames';
+import { useUploadStore } from '../model/store';
+import { getSuitableMessage } from '../utils/getSuitableMessage';
+import { useAnalyseStore } from '../../analyseFile/model/store';
 
-interface UploadContainerProps {
-  updateStateAnalyseBtn: (isUploadedFile: boolean) => void;
-  isFileUploaded: boolean;
-}
+export const UploadContainer = () => {
+  const isFileUploaded = useUploadStore((state) => state.isUploaded);
+  const errorUpload = useUploadStore((state) => state.error);
 
-export const UploadContainer: FC<UploadContainerProps> = ({
-  updateStateAnalyseBtn,
-  isFileUploaded,
-}) => {
+  const errorAnalyse = useAnalyseStore((state) => state.error);
+  const isAnalyzing = useAnalyseStore((state) => state.isProcessing);
+  const isFinishedAnalyse = useAnalyseStore((state) => state.isFinished);
+
+  const hasError = Boolean(errorUpload) || Boolean(errorAnalyse);
+
   return (
     <div
       className={classNames(styles.container, {
-        [styles.container__uploaded]: isFileUploaded,
+        [styles.container__uploaded]: !hasError && isFileUploaded,
+        [styles.container__failed]: hasError && isFileUploaded,
       })}
     >
-      <UploadButton updateStateAnalyseBtn={updateStateAnalyseBtn} />
-      <p className={styles.notification}>
-        {isFileUploaded ? 'файл загружен!' : 'или перетащите сюда'}
+      <UploadButton
+        hasError={hasError}
+        isAnalyzing={isAnalyzing}
+        isFinishedAnalyse={isFinishedAnalyse}
+      />
+      <p
+        className={classNames(styles.notification, {
+          [styles.notification__error]: hasError && isFileUploaded,
+        })}
+      >
+        {getSuitableMessage(
+          isFileUploaded,
+          hasError,
+          isAnalyzing,
+          isFinishedAnalyse
+        )}
       </p>
     </div>
   );
