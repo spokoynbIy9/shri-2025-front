@@ -15,7 +15,7 @@ export interface DetailedHighlightInfo {
   less_spent_civ: string;
 }
 
-interface Highlight {
+export interface Highlight {
   id: string;
   filename: string;
   date: string;
@@ -31,6 +31,9 @@ interface HighlightState {
   setDetailedHighlightInfo: (id: string, data: DetailedHighlightInfo) => void;
   setSuccessProcessed: (id: string, isSuccessProcessed: boolean) => void;
   saveHighlightToLocalStorage: () => void;
+  removeHighlightsFromLocalStorage: () => void;
+  removeHighlightByIdFromLocalStorage: (id: string) => void;
+  loadHighlightsFromLocalStorage: () => void;
 }
 
 export const useHighlightStore = create<HighlightState>((set, get) => ({
@@ -80,7 +83,42 @@ export const useHighlightStore = create<HighlightState>((set, get) => ({
         JSON.stringify([...parsed, curHighlight])
       );
     } catch (err) {
+      // todo
+      // correct processing errors
       console.error('Ошибка при сохранении в localStorage:', err);
+    }
+  },
+
+  removeHighlightsFromLocalStorage: () => {
+    localStorage.setItem('highlights', JSON.stringify([]));
+    set({ highlights: [] });
+  },
+
+  removeHighlightByIdFromLocalStorage(id) {
+    try {
+      const existing = localStorage.getItem('highlights');
+      const parsed: Highlight[] = existing ? JSON.parse(existing) : [];
+
+      const filteredHighlights = parsed.filter((hl) => hl.id !== id);
+
+      localStorage.setItem('highlights', JSON.stringify(filteredHighlights));
+      set({ highlights: filteredHighlights });
+    } catch (err) {
+      //todo
+      //correct processing errors
+      console.error('Ошибка при сохранении в localStorage:', err);
+    }
+  },
+
+  //todo
+  // check
+  loadHighlightsFromLocalStorage: () => {
+    try {
+      const existing = localStorage.getItem('highlights');
+      const parsed: Highlight[] = existing ? JSON.parse(existing) : [];
+      set({ highlights: parsed });
+    } catch (err) {
+      console.error('Ошибка при загрузке из localStorage:', err);
     }
   },
 }));

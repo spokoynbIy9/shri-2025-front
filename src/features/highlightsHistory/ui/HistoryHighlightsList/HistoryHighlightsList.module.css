@@ -1,0 +1,11 @@
+.text {
+  text-align: center;
+  color: #cb81ff;
+  font-size: var(--font-size-xl);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

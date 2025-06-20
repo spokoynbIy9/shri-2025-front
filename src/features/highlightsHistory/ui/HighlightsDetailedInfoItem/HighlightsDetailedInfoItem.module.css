@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  padding: 20px 0;
+  background-color: #eacdff;
+  border-radius: 24px;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+}
+
+.text {
+  font-size: var(--font-size-s);
+}

@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.containerInfo {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  border-radius: 40px;
+  padding: 20px 40px;
+  background-color: #cb81ff;
+}
+
+.wrapperInfo {
+  display: flex;
+  align-items: center;
+}
+
+.wrapperInfo__disabled {
+  opacity: 0.5;
+}

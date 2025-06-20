@@ -3,14 +3,8 @@
   max-height: 70px;
   cursor: pointer;
   padding: 19px;
-  background-color: #201b10;
+  background-color: #fff;
   font-size: initial;
   border: none;
   border-radius: 10px;
-}
-
-.btn_modal {
-  position: absolute;
-  top: -2rem;
-  right: -5rem;
 }
