@@ -1,0 +1,1 @@
+export { getSuitableMessage } from './getSuitableMessage';
