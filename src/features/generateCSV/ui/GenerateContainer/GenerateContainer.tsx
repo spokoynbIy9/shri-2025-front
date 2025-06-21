@@ -11,12 +11,14 @@ export const GenerateContainer = () => {
   const hasError = Boolean(useGenerateStore((state) => state.error));
 
   const setError = useGenerateStore((state) => state.setError);
+  const setIsProcessing = useGenerateStore((state) => state.setIsProcessing);
   const setIsFinished = useGenerateStore((state) => state.setIsFinished);
 
   const message = getSuitableMessage(hasError, isGenerating, isFinished);
 
   const resetFlags = () => {
     setError(null);
+    setIsProcessing(false);
     setIsFinished(false);
   };
 

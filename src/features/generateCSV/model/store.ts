@@ -14,7 +14,7 @@ interface GenerateState {
     size: number,
     withErrors?: 'on' | 'off',
     maxSpend?: string
-  ) => void;
+  ) => Promise<void>;
 }
 
 export const useGenerateStore = create<GenerateState>((set, get) => ({

@@ -28,10 +28,9 @@ export const AnalyseHighlightsList = () => {
 
   return (
     <>
-      {isProcessing || (!isProcessing && isFinished) ? (
-        curHighlights && (
-          <HighlightsList highlights={curHighlights} typeList="analyse" />
-        )
+      {(isProcessing && curHighlights.length) ||
+      (!isProcessing && isFinished && curHighlights.length) ? (
+        <HighlightsList highlights={curHighlights} typeList="analyse" />
       ) : (
         <div className={styles.text_container}>
           <p className={styles.text}>

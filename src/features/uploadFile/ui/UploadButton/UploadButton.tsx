@@ -23,9 +23,10 @@ export const UploadButton: FC<UploadButtonProps> = ({
   const setFile = useUploadStore((state) => state.setFile);
 
   const setIsFinished = useAnalyseStore((state) => state.setIsFinished);
+  const setAnalyseError = useAnalyseStore((state) => state.setError);
 
   const handleClick = () => {
-    fileInputRef.current?.click();
+    if (!file) fileInputRef.current?.click();
   };
 
   const uploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +45,10 @@ export const UploadButton: FC<UploadButtonProps> = ({
     setFile(null);
     setUploaded(false);
     setIsFinished(false);
+    setAnalyseError(null);
   };
+
+  console.log('Есть он', file);
 
   return (
     <div className={styles.container_btn}>
@@ -65,14 +69,11 @@ export const UploadButton: FC<UploadButtonProps> = ({
           [styles.btn__disabled]: file?.name,
         })}
         onClick={handleClick}
-        disabled={Boolean(file?.name)}
       >
         {file?.name ? !isAnalyzing ? file?.name : <Loader /> : 'Загрузить файл'}
       </button>
 
-      {file?.name && !hasError && !isAnalyzing && (
-        <CrossButton onClick={deleteFile} />
-      )}
+      {file?.name && !isAnalyzing && <CrossButton onClick={deleteFile} />}
     </div>
   );
 };

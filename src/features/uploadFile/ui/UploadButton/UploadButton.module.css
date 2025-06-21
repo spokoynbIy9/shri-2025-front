@@ -37,6 +37,5 @@
 }
 
 .btn__disabled {
-  color: #000;
   cursor: default;
 }

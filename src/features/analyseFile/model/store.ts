@@ -17,7 +17,7 @@ interface AnalyseState {
   setIsProcessing: (flag: boolean) => void;
   setIsFinished: (flag: boolean) => void;
 
-  sendCsvToAggregate: (file: File, rows: number) => void;
+  sendCsvToAggregate: (file: File, rows: number) => Promise<void>;
 }
 
 export const useAnalyseStore = create<AnalyseState>((set, get) => ({
@@ -43,6 +43,8 @@ export const useAnalyseStore = create<AnalyseState>((set, get) => ({
 
     const url = `${API_BASE_URL}/aggregate?rows=${rows}`;
 
+    get().setIsProcessing(true);
+
     const response = await fetch(url, {
       method: 'POST',
       body: formData,
@@ -67,8 +69,6 @@ export const useAnalyseStore = create<AnalyseState>((set, get) => ({
 
       return;
     }
-
-    get().setIsProcessing(true);
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');

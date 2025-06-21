@@ -10,11 +10,34 @@ export const AnalyseButton = () => {
 
   const errorAnalyse = useAnalyseStore((state) => state.error);
   const isProcessing = useAnalyseStore((state) => state.isProcessing);
+  const setProcessing = useAnalyseStore((state) => state.setIsProcessing);
   const isFinished = useAnalyseStore((state) => state.isFinished);
+  const setAnalyseError = useAnalyseStore((state) => state.setError);
 
   const sendCsvToAggregate = useAnalyseStore(
     (state) => state.sendCsvToAggregate
   );
+
+  const handleSendCsv = async () => {
+    if (!file) return;
+
+    try {
+      await sendCsvToAggregate(file, 10000);
+    } catch (error) {
+      let message = 'Неизвестная ошибка';
+
+      if (typeof error === 'string') {
+        message = error;
+      } else if (error instanceof Error) {
+        message = error.message;
+      } else {
+        message = JSON.stringify(error);
+      }
+
+      setAnalyseError(message);
+      setProcessing(false);
+    }
+  };
 
   return (
     <button
@@ -26,9 +49,7 @@ export const AnalyseButton = () => {
           isFinished,
       })}
       disabled={!isFileUploaded}
-      onClick={() => {
-        if (file) sendCsvToAggregate(file, 100000);
-      }}
+      onClick={handleSendCsv}
     >
       Отправить
     </button>
