@@ -1,17 +1,17 @@
 import classNames from 'classnames';
-import { useGenerateState } from '../model/store';
-import { getSuitableMessage } from '../utils';
-import { GenerateButton } from './GenerateButton';
+import { GenerateButton } from '../GenerateButton/GenerateButton';
 import styles from './GenerateContainer.module.css';
-import { CrossButton } from '../../../shared/ui/CrossButton';
+import { CrossButton } from '../../../../shared/ui/CrossButton';
+import { getSuitableMessage } from '../../utils/getSuitableMessage';
+import { useGenerateStore } from '../../model/store';
 
 export const GenerateContainer = () => {
-  const isGenerating = useGenerateState((state) => state.isProcessing);
-  const isFinished = useGenerateState((state) => state.isFinished);
-  const hasError = Boolean(useGenerateState((state) => state.error));
+  const isGenerating = useGenerateStore((state) => state.isProcessing);
+  const isFinished = useGenerateStore((state) => state.isFinished);
+  const hasError = Boolean(useGenerateStore((state) => state.error));
 
-  const setError = useGenerateState((state) => state.setError);
-  const setIsFinished = useGenerateState((state) => state.setIsFinished);
+  const setError = useGenerateStore((state) => state.setError);
+  const setIsFinished = useGenerateStore((state) => state.setIsFinished);
 
   const message = getSuitableMessage(hasError, isGenerating, isFinished);
 

@@ -17,7 +17,7 @@ interface GenerateState {
   ) => void;
 }
 
-export const useGenerateState = create<GenerateState>((set, get) => ({
+export const useGenerateStore = create<GenerateState>((set, get) => ({
   error: null,
   isProcessing: false,
   isFinished: false,

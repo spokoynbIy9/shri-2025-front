@@ -1,7 +1,7 @@
+import { useUploadStore } from '../../../uploadFile';
+import { useAnalyseStore } from '../../model/store';
 import styles from './AnalyseButton.module.css';
 import classNames from 'classnames';
-import { useUploadStore } from '../../uploadFile';
-import { useAnalyseStore } from '../model/store';
 
 export const AnalyseButton = () => {
   const file = useUploadStore((state) => state.file);

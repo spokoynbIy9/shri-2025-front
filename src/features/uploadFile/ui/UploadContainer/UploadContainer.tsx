@@ -1,9 +1,9 @@
-import { UploadButton } from './UploadButton';
 import styles from './UploadContainer.module.css';
 import classNames from 'classnames';
-import { useUploadStore } from '../model/store';
-import { getSuitableMessage } from '../utils/getSuitableMessage';
-import { useAnalyseStore } from '../../analyseFile/model/store';
+import { useUploadStore } from '../../model/store';
+import { getSuitableMessage } from '../../utils/getSuitableMessage';
+import { useAnalyseStore } from '../../../analyseFile/model/store';
+import { UploadButton } from '../UploadButton/UploadButton';
 
 export const UploadContainer = () => {
   const isFileUploaded = useUploadStore((state) => state.isUploaded);

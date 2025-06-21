@@ -1,5 +1,5 @@
 import { useState, type FC } from 'react';
-import styles from './HistoryHighlightsItem.module.css';
+import styles from './HistoryHighlightReportsItem.module.css';
 import { DeleteButton } from '../../../../shared/ui/DeleteButton';
 import documents from '../../../../shared/assets/images/filename_doc.png';
 import smile from '../../../../shared/assets/images/smile.png';
@@ -16,7 +16,7 @@ interface HistoryHighlightsItemProps {
   highlightInfo: HighlightReport;
 }
 
-export const HistoryHighlightsItem: FC<HistoryHighlightsItemProps> = ({
+export const HistoryHighlightReportsItem: FC<HistoryHighlightsItemProps> = ({
   highlightInfo,
 }) => {
   const [isOpen, setIsOpen] = useState(false);

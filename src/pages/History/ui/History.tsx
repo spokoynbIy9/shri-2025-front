@@ -1,7 +1,7 @@
-import { HistoryHighlightsBlock } from '../../../features/highlightsHistory';
+import { HistoryHighlightReportsBlock } from '../../../features/historyHighlightReports';
 
 const History = () => {
-  return <HistoryHighlightsBlock />;
+  return <HistoryHighlightReportsBlock />;
 };
 
 export default History;

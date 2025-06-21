@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { HistoryHighlightsItem } from '../HistoryHighlightsItem/HistoryHighlightsItem';
-import styles from './HistoryHighlightsList.module.css';
+import styles from './HistoryHighlightReportsList.module.css';
 import { useHighlightReportStore } from '../../../../entities/highlight';
+import { HistoryHighlightReportsItem } from '../HistoryHighlightReportsItem/HistoryHighlightReportsItem';
 
-export const HistoryHighlightsList = () => {
+export const HistoryHighlightReportsList = () => {
   const highlightReports = useHighlightReportStore(
     (state) => state.highlightReports
   );
@@ -20,7 +20,7 @@ export const HistoryHighlightsList = () => {
       {highlightReports.length ? (
         <div className={styles.list}>
           {highlightReports.map((hl) => (
-            <HistoryHighlightsItem key={hl.id} highlightInfo={hl} />
+            <HistoryHighlightReportsItem key={hl.id} highlightInfo={hl} />
           ))}
         </div>
       ) : (

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import styles from './GenerateButton.module.css';
 import type { FC } from 'react';
-import { useGenerateState } from '../model/store';
+import { useGenerateStore } from '../../model/store';
 
 interface GenerateButtonProps {
   isGenerating: boolean;
@@ -14,7 +14,7 @@ export const GenerateButton: FC<GenerateButtonProps> = ({
   isFinishedGenerate,
   hasError,
 }) => {
-  const downloadReport = useGenerateState((state) => state.downloadReport);
+  const downloadReport = useGenerateStore((state) => state.downloadReport);
 
   return (
     <button

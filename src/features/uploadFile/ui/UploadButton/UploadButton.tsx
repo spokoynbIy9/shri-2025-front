@@ -1,9 +1,9 @@
 import { useRef, type FC } from 'react';
-import { CrossButton } from '../../../shared/ui/CrossButton';
 import styles from './UploadButton.module.css';
 import classNames from 'classnames';
-import { useUploadStore } from '../model/store';
-import { useAnalyseStore } from '../../analyseFile/model/store';
+import { CrossButton } from '../../../../shared/ui/CrossButton';
+import { useUploadStore } from '../../model/store';
+import { useAnalyseStore } from '../../../analyseFile';
 
 interface UploadButtonProps {
   hasError: boolean;
