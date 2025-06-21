@@ -48,8 +48,6 @@ export const UploadButton: FC<UploadButtonProps> = ({
     setAnalyseError(null);
   };
 
-  console.log('Есть он', file);
-
   return (
     <div className={styles.container_btn}>
       <input
