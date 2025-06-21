@@ -9,6 +9,7 @@ export const AppRoutes = {
   AnalyseCSV: 'analyse-csv',
   GeneratorCSV: 'generator-csv',
   History: 'history',
+  NotFound: 'NotFound',
 } as const;
 
 export type AppRoutes = keyof typeof AppRoutes;
@@ -18,4 +19,5 @@ export const RoutePath: Record<AppRoutes, string> = {
   AnalyseCSV: '/analyse-csv',
   GeneratorCSV: '/generator-csv',
   History: '/history',
+  NotFound: '*',
 };

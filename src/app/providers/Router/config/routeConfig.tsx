@@ -28,4 +28,8 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     path: RoutePath.Home,
     element: <Navigate to={RoutePath.AnalyseCSV} replace={true} />,
   },
+  NotFound: {
+    path: RoutePath.NotFound,
+    element: <Navigate to={RoutePath.AnalyseCSV} replace={true} />,
+  },
 };

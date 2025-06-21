@@ -23,7 +23,6 @@ export const AnalyseHighlightsList = () => {
       : [];
   }, [curDetailedInfo, getCorrectTitlesForDetailedInfo]);
 
-  // fix this
   const isProcessing = useAnalyseStore((state) => state.isProcessing);
   const isFinished = useAnalyseStore((state) => state.isFinished);
 
