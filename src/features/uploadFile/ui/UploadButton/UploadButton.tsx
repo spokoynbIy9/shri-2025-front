@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { CrossButton } from '../../../../shared/ui/CrossButton';
 import { useUploadStore } from '../../model/store';
 import { useAnalyseStore } from '../../../analyseFile';
+import { Loader } from '../../../../shared/ui';
 
 interface UploadButtonProps {
   hasError: boolean;
@@ -66,15 +67,7 @@ export const UploadButton: FC<UploadButtonProps> = ({
         onClick={handleClick}
         disabled={Boolean(file?.name)}
       >
-        {file?.name ? (
-          !isAnalyzing ? (
-            file?.name
-          ) : (
-            <span className={styles.loader}></span>
-          )
-        ) : (
-          'Загрузить файл'
-        )}
+        {file?.name ? !isAnalyzing ? file?.name : <Loader /> : 'Загрузить файл'}
       </button>
 
       {file?.name && !hasError && !isAnalyzing && (

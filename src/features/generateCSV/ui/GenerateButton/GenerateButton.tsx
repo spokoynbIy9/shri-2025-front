@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import styles from './GenerateButton.module.css';
 import type { FC } from 'react';
 import { useGenerateStore } from '../../model/store';
+import { Loader } from '../../../../shared/ui';
 
 interface GenerateButtonProps {
   isGenerating: boolean;
@@ -28,7 +29,7 @@ export const GenerateButton: FC<GenerateButtonProps> = ({
       {hasError ? (
         'Ошибка'
       ) : isGenerating ? (
-        <span className={styles.loader}></span>
+        <Loader />
       ) : isFinishedGenerate ? (
         'Done'
       ) : (
