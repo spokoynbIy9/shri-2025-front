@@ -23,9 +23,6 @@ export const UploadButton: FC<UploadButtonProps> = ({
 
   const setIsFinished = useAnalyseStore((state) => state.setIsFinished);
 
-  // todo
-  // replace on isProcessing from Analysestate
-
   const handleClick = () => {
     fileInputRef.current?.click();
   };
@@ -53,7 +50,8 @@ export const UploadButton: FC<UploadButtonProps> = ({
       <input
         ref={fileInputRef}
         type="file"
-        style={{ display: 'none' }}
+        accept=".csv,text/csv"
+        className={styles.input}
         onChange={uploadFile}
         onClick={resetLastFile}
       />
