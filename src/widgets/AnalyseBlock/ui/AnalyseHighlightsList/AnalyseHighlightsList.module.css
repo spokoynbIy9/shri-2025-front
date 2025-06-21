@@ -1,10 +1,9 @@
-.container {
+.text_container {
   margin-top: 60px;
   display: flex;
-  flex-wrap: wrap;
+  flex-grow: 1;
   justify-content: center;
   align-items: center;
-  gap: 40px;
 }
 
 .text {

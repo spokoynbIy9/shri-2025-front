@@ -30,6 +30,7 @@ export const GenerateContainer = () => {
         />
         {(isFinished || hasError) && <CrossButton onClick={resetFlags} />}
       </div>
+
       {message ? (
         <p className={classNames({ [styles.notification__error]: hasError })}>
           {message}

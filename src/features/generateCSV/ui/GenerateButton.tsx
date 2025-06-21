@@ -23,7 +23,7 @@ export const GenerateButton: FC<GenerateButtonProps> = ({
         [styles.btn__finishedProcessing]: !hasError && isFinishedGenerate,
         [styles.btn__failed]: hasError,
       })}
-      onClick={() => downloadReport(0.2)}
+      onClick={() => downloadReport(0.2, 'on')}
     >
       {hasError ? (
         'Ошибка'

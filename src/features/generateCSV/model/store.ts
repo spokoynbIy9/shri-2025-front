@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { API_BASE_URL } from '../../../shared/config/api';
 
 interface GenerateState {
   error: string | null;
@@ -37,12 +38,11 @@ export const useGenerateState = create<GenerateState>((set, get) => ({
     });
 
     get().setIsProcessing(true);
-    const response = await fetch(`http://127.0.0.1:3000/report?${queryParams}`);
+    const response = await fetch(`${API_BASE_URL}/report?${queryParams}`);
 
-    // todo
-    // обработка ошибок
     if (!response.ok) {
-      throw new Error(`Ошибка при получении отчета`);
+      get().setError(`Ошибка при получении отчета`);
+      return;
     }
 
     const blob = await response.blob();

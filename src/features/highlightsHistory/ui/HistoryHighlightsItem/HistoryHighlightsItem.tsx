@@ -1,8 +1,4 @@
 import { useState, type FC } from 'react';
-import {
-  useHighlightStore,
-  type Highlight,
-} from '../../../hightlights/model/store';
 import styles from './HistoryHighlightsItem.module.css';
 import { DeleteButton } from '../../../../shared/ui/DeleteButton';
 import documents from '../../../../shared/assets/images/filename_doc.png';
@@ -10,22 +6,30 @@ import smile from '../../../../shared/assets/images/smile.png';
 import sad_smile from '../../../../shared/assets/images/sad_smile.png';
 import classNames from 'classnames';
 import { Modal } from '../../../../shared/ui/Modal';
-import { HighlightsDetailedInfoList } from '../HighlightsDetailedInfoList/HighlightsDetailedInfoList';
+import {
+  HighlightsList,
+  useHighlightReportStore,
+  type HighlightReport,
+} from '../../../../entities/highlight';
 
 interface HistoryHighlightsItemProps {
-  highlightInfo: Highlight;
+  highlightInfo: HighlightReport;
 }
 
 export const HistoryHighlightsItem: FC<HistoryHighlightsItemProps> = ({
   highlightInfo,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const removeHighlightById = useHighlightStore(
-    (state) => state.removeHighlightByIdFromLocalStorage
+  const removeHighlightReportById = useHighlightReportStore(
+    (state) => state.removeHighlightReportByIdFromLS
   );
 
   const { id, filename, date, isSuccessProcessed, detailedInfo } =
     highlightInfo;
+
+  const getCorrectTitlesForDetailedInfo = useHighlightReportStore(
+    (state) => state.getCorrectTitlesForDetailedInfo
+  );
 
   const closeModal = () => setIsOpen(false);
 
@@ -64,9 +68,12 @@ export const HistoryHighlightsItem: FC<HistoryHighlightsItemProps> = ({
           <img src={sad_smile} alt="" />
         </div>
       </div>
-      <DeleteButton onClick={() => removeHighlightById(id)} />
+      <DeleteButton onClick={() => removeHighlightReportById(id)} />
       <Modal isOpen={isOpen} onClose={closeModal}>
-        <HighlightsDetailedInfoList detailedInfo={detailedInfo} />
+        <HighlightsList
+          highlights={getCorrectTitlesForDetailedInfo(detailedInfo)}
+          typeList="history"
+        />
       </Modal>
     </div>
   );

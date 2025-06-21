@@ -1,9 +1,9 @@
-import { useHighlightStore } from '../../../hightlights/model/store';
+import { useHighlightReportStore } from '../../../../entities/highlight';
 import styles from './ClearHistoryButton.module.css';
 
 export const ClearHistoryButton = () => {
-  const deleteAllHighlights = useHighlightStore(
-    (state) => state.removeHighlightsFromLocalStorage
+  const deleteAllHighlights = useHighlightReportStore(
+    (state) => state.removeHighlightReportsFromLS
   );
 
   return (

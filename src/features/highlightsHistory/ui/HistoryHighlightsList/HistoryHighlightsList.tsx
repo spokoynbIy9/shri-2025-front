@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { HistoryHighlightsItem } from '../HistoryHighlightsItem/HistoryHighlightsItem';
 import styles from './HistoryHighlightsList.module.css';
-import { useHighlightStore } from '../../../hightlights/model/store';
+import { useHighlightReportStore } from '../../../../entities/highlight';
 
 export const HistoryHighlightsList = () => {
-  const highlights = useHighlightStore((state) => state.highlights);
-  const load = useHighlightStore(
-    (state) => state.loadHighlightsFromLocalStorage
+  const highlightReports = useHighlightReportStore(
+    (state) => state.highlightReports
+  );
+  const load = useHighlightReportStore(
+    (state) => state.loadHighlightReportsFromLS
   );
 
   useEffect(() => {
@@ -15,9 +17,9 @@ export const HistoryHighlightsList = () => {
 
   return (
     <div>
-      {highlights.length ? (
+      {highlightReports.length ? (
         <div className={styles.list}>
-          {highlights.map((hl) => (
+          {highlightReports.map((hl) => (
             <HistoryHighlightsItem key={hl.id} highlightInfo={hl} />
           ))}
         </div>
