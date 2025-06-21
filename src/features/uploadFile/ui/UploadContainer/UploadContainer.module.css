@@ -19,6 +19,10 @@
   border: 1px solid #ff5f00;
 }
 
+.container__dragActive {
+  background-color: #d4fae6;
+}
+
 .notification {
   margin-top: 10px;
 }
