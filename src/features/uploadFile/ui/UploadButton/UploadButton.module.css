@@ -9,8 +9,8 @@
 
 .btn {
   cursor: pointer;
-  width: 360px;
-  padding: 17px 0;
+  min-width: 360px;
+  padding: 17px 13px;
   background: #fff;
   border: none;
   border-radius: 10px;
