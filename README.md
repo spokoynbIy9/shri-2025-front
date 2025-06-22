@@ -24,7 +24,7 @@
 - **GenerateContainer + GenerateButton** — кнопка генерации отчёта и отображение статуса;
 - **HighlightsItem** — отображение ключевых метрик по данным;
 - **HistoryHighlightReportsItem** — отдельная запись в истории с модальным просмотром результатов;
-- **Modal, Loader, CrossButton, DeleteButton** — вспомогательные UI-компоненты.
+- **Modal, Loader, Button, CrossButton, DeleteButton** — вспомогательные UI-компоненты.
 
 ### Состояние приложения:
 
