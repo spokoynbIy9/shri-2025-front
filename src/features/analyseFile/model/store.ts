@@ -7,6 +7,7 @@ import {
   type HighlightGroupDto,
 } from '../../../entities/highlight';
 import { API_BASE_URL } from '../../../shared/config/api';
+import { createFailedHighlightReport } from './lib/createFailedHighlightReport';
 
 interface AnalyseState {
   error: string | null;
@@ -17,7 +18,7 @@ interface AnalyseState {
   setIsProcessing: (flag: boolean) => void;
   setIsFinished: (flag: boolean) => void;
 
-  sendCsvToAggregate: (file: File, rows: number) => Promise<void>;
+  sendCsvToAggregate: (file: File, rows: number) => void;
 }
 
 export const useAnalyseStore = create<AnalyseState>((set, get) => ({
@@ -47,88 +48,97 @@ export const useAnalyseStore = create<AnalyseState>((set, get) => ({
     resetCurHighlightReportId();
     get().setIsProcessing(true);
 
-    const response = await fetch(url, {
-      method: 'POST',
-      body: formData,
-    });
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
 
-    // processing error
-    if (!response.ok || !response.body) {
-      get().setError('Ошибка при отправке файла или пустой ответ');
+      // processing error
+      if (!response.ok || !response.body) {
+        get().setError('Ошибка при отправке файла или пустой ответ');
 
-      const id = Date.now().toString();
-      const filename = file.name;
-      const resultData = {
-        id,
-        filename,
-        date: getCorrectDataFormat(new Date()),
-        isSuccessProcessed: false,
-        detailedInfo: null,
-      };
+        createFailedHighlightReport(file);
 
-      createHighlightReport(resultData);
-      saveHighlightReportByIdFromLS(id);
-
-      return;
-    }
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder('utf-8');
-    let buffer = '';
-
-    let createdHighlightId: string | null = null;
-
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) {
-        if (createdHighlightId) {
-          setIsSuccessProcessedById(createdHighlightId, true);
-          saveHighlightReportByIdFromLS(createdHighlightId);
-        }
-        break;
+        return;
       }
 
-      buffer += decoder.decode(value, { stream: true });
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let buffer = '';
 
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
+      let createdHighlightId: string | null = null;
 
-      for (let i = 0; i < lines.length; i++) {
-        if (lines[i].trim()) {
-          const rawLine: HighlightGroupDto = JSON.parse(lines[i]);
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          if (createdHighlightId) {
+            setIsSuccessProcessedById(createdHighlightId, true);
+            saveHighlightReportByIdFromLS(createdHighlightId);
+          }
+          break;
+        }
 
-          const { less_spent_value, ...rest } = rawLine;
-          void less_spent_value;
+        buffer += decoder.decode(value, { stream: true });
 
-          const transformedLine: HighlightGroup = {
-            ...rest,
-            big_spent_at: getDateStringFromDayOfYear(rest.big_spent_at),
-            less_spent_at: getDateStringFromDayOfYear(rest.less_spent_at),
-          };
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
 
-          const filename = file.name;
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].trim()) {
+            const rawLine: HighlightGroupDto = JSON.parse(lines[i]);
 
-          if (!createdHighlightId) {
-            const id = Date.now().toString();
+            const { less_spent_value, ...rest } = rawLine;
+            void less_spent_value;
 
-            createHighlightReport({
-              id,
-              filename,
-              date: getCorrectDataFormat(new Date()),
-              isSuccessProcessed: null,
-              detailedInfo: transformedLine,
-            });
+            const transformedLine: HighlightGroup = {
+              ...rest,
+              total_spend_galactic: Math.round(rest.total_spend_galactic),
+              big_spent_value: Math.round(rest.big_spent_value),
+              average_spend_galactic: Math.round(rest.average_spend_galactic),
+              big_spent_at: getDateStringFromDayOfYear(rest.big_spent_at),
+              less_spent_at: getDateStringFromDayOfYear(rest.less_spent_at),
+            };
 
-            createdHighlightId = id;
-            setCurHighlightReportId(createdHighlightId);
-          } else {
-            setHighlightGroupById(createdHighlightId, transformedLine);
+            const filename = file.name;
+
+            if (!createdHighlightId) {
+              const id = Date.now().toString();
+
+              createHighlightReport({
+                id,
+                filename,
+                date: getCorrectDataFormat(new Date()),
+                isSuccessProcessed: null,
+                detailedInfo: transformedLine,
+              });
+
+              createdHighlightId = id;
+              setCurHighlightReportId(createdHighlightId);
+            } else {
+              setHighlightGroupById(createdHighlightId, transformedLine);
+            }
           }
         }
       }
-    }
 
-    get().setIsProcessing(false);
-    get().setIsFinished(true);
+      get().setIsProcessing(false);
+      get().setIsFinished(true);
+    } catch (error) {
+      let message = 'Неизвестная ошибка';
+
+      if (typeof error === 'string') {
+        message = error;
+      } else if (error instanceof Error) {
+        message = error.message;
+      } else {
+        message = JSON.stringify(error);
+      }
+
+      get().setError(message);
+      get().setIsProcessing(false);
+
+      createFailedHighlightReport(file);
+    }
   },
 }));
