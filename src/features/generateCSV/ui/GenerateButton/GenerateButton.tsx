@@ -1,8 +1,6 @@
-import classNames from 'classnames';
-import styles from './GenerateButton.module.css';
 import type { FC } from 'react';
 import { useGenerateStore } from '../../model/store';
-import { Loader } from '../../../../shared/ui';
+import { Button } from '../../../../shared/ui';
 
 interface GenerateButtonProps {
   isGenerating: boolean;
@@ -39,23 +37,16 @@ export const GenerateButton: FC<GenerateButtonProps> = ({
   };
 
   return (
-    <button
-      className={classNames(styles.btn, {
-        [styles.btn__processing]: !hasError && isGenerating,
-        [styles.btn__finishedProcessing]: !hasError && isFinishedGenerate,
-        [styles.btn__failed]: hasError,
-      })}
+    <Button
+      title={'Начать генерацию'}
+      processingKit={{
+        isProcessing: isGenerating,
+        isFinishedProcessing: isFinishedGenerate,
+        titleFinishedProcessing: 'Done',
+        hasError,
+        titleError: 'Ошибка',
+      }}
       onClick={handleDownloadReport}
-    >
-      {hasError ? (
-        'Ошибка'
-      ) : isGenerating ? (
-        <Loader />
-      ) : isFinishedGenerate ? (
-        'Done'
-      ) : (
-        'Начать генерацию'
-      )}
-    </button>
+    />
   );
 };
