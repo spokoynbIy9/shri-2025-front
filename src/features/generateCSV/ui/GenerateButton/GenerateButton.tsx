@@ -45,6 +45,7 @@ export const GenerateButton: FC<GenerateButtonProps> = ({
         titleFinishedProcessing: 'Done',
         hasError,
         titleError: 'Ошибка',
+        filename: null,
       }}
       onClick={handleDownloadReport}
     />

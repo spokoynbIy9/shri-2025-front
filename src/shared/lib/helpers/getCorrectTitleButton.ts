@@ -11,13 +11,14 @@ export function getCorrectTitleButton(
     titleError,
     isFinishedProcessing,
     titleFinishedProcessing,
+    filename,
   } = processingKit;
 
   if (hasError) {
     return titleError;
   } else if (isFinishedProcessing) {
     return titleFinishedProcessing;
-  } else {
-    return defaultTitle;
-  }
+  } else if (filename) {
+    return filename;
+  } else return defaultTitle;
 }

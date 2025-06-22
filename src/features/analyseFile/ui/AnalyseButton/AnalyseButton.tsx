@@ -22,7 +22,7 @@ export const AnalyseButton = () => {
     if (!file) return;
 
     try {
-      await sendCsvToAggregate(file, 10000);
+      await sendCsvToAggregate(file, 100000);
     } catch (error) {
       let message = 'Неизвестная ошибка';
 

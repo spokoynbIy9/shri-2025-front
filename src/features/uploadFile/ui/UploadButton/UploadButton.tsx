@@ -1,10 +1,9 @@
 import { useRef, type FC } from 'react';
 import styles from './UploadButton.module.css';
-import classNames from 'classnames';
 import { CrossButton } from '../../../../shared/ui/CrossButton';
 import { useUploadStore } from '../../model/store';
 import { useAnalyseStore } from '../../../analyseFile';
-import { Loader } from '../../../../shared/ui';
+import { Button } from '../../../../shared/ui';
 
 interface UploadButtonProps {
   hasError: boolean;
@@ -58,18 +57,20 @@ export const UploadButton: FC<UploadButtonProps> = ({
         onChange={uploadFile}
         onClick={resetLastFile}
       />
-      <button
-        className={classNames(styles.btn, {
-          [styles.btn__processing]: !hasError && file?.name && isAnalyzing,
-          [styles.btn__uploaded]: !hasError && file?.name && !isFinishedAnalyse,
-          [styles.btn__failed]: hasError && file?.name,
-          [styles.btn__finishedProcessing]: isFinishedAnalyse,
-          [styles.btn__disabled]: file?.name,
-        })}
+
+      <Button
+        title="Загрузить файл"
+        specific_type="upload"
+        processingKit={{
+          isProcessing: isAnalyzing,
+          isFinishedProcessing: isFinishedAnalyse,
+          titleFinishedProcessing: file?.name || null,
+          hasError,
+          titleError: file?.name ?? null,
+          filename: file?.name ?? null,
+        }}
         onClick={handleClick}
-      >
-        {file?.name ? !isAnalyzing ? file?.name : <Loader /> : 'Загрузить файл'}
-      </button>
+      />
 
       {file?.name && !isAnalyzing && <CrossButton onClick={deleteFile} />}
     </div>

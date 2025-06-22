@@ -36,6 +36,7 @@ export const useAnalyseStore = create<AnalyseState>((set, get) => ({
       setHighlightGroupById,
       setIsSuccessProcessedById,
       saveHighlightReportByIdFromLS,
+      resetCurHighlightReportId,
     } = useHighlightReportStore.getState();
 
     const formData = new FormData();
@@ -43,6 +44,7 @@ export const useAnalyseStore = create<AnalyseState>((set, get) => ({
 
     const url = `${API_BASE_URL}/aggregate?rows=${rows}`;
 
+    resetCurHighlightReportId();
     get().setIsProcessing(true);
 
     const response = await fetch(url, {

@@ -1,7 +1,8 @@
 export interface ProcessingKit {
   isProcessing: boolean;
   isFinishedProcessing: boolean;
-  titleFinishedProcessing: string;
+  titleFinishedProcessing: string | null;
   hasError: boolean;
-  titleError: string;
+  titleError: string | null;
+  filename: string | null;
 }

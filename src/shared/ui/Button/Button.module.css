@@ -9,6 +9,15 @@
   align-self: center;
 }
 
+.btn__uploadType {
+  min-width: 360px;
+  padding: 17px 13px;
+  background: #fff;
+  border: none;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
 .btn__processing {
   width: 360px;
   padding: 17px 0;
@@ -29,4 +38,12 @@
   color: #fff;
   background-color: #ff5f00;
   margin-right: 10px;
+}
+
+.btn__uploaded {
+  background: #cb81ff;
+}
+
+.btn__disabled {
+  cursor: default;
 }
