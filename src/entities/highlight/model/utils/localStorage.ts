@@ -8,7 +8,7 @@ export function saveHighlightReportToStorage(report: HighlightReport) {
 
   localStorage.setItem(
     HIGHLIGHTS_KEY,
-    JSON.stringify([...existingReports, report])
+    JSON.stringify([report, ...existingReports])
   );
 }
 

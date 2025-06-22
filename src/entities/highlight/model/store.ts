@@ -51,7 +51,7 @@ export const useHighlightReportStore = create<HighlightReportState>(
 
     // creating highlightReport
     createHighlightReport: (data) => {
-      set({ highlightReports: [...get().highlightReports, data] });
+      set({ highlightReports: [data, ...get().highlightReports] });
     },
 
     // functions are connected with setting highlightReport by Id
