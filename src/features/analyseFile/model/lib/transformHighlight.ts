@@ -5,8 +5,11 @@ import type {
 import { getDateStringFromDayOfYear } from '../../../../shared/lib/helpers/getDateStringFromDayOfYear';
 
 export function transformHighlight(raw: HighlightGroupDto): HighlightGroup {
+	const { less_spent_value, ...rest } = raw;
+	void less_spent_value;
+
 	return {
-		...raw,
+		...rest,
 		total_spend_galactic: Math.round(raw.total_spend_galactic),
 		big_spent_value: Math.round(raw.big_spent_value),
 		average_spend_galactic: Math.round(raw.average_spend_galactic),

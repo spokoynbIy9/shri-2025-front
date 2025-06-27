@@ -88,6 +88,7 @@ export const useAnalyseStore = create<AnalyseState>((set, get) => ({
 					if (!line.trim()) continue;
 
 					const rawLine: HighlightGroupDto = JSON.parse(line);
+
 					const transformedLine = transformHighlight(rawLine);
 
 					if (!createdHighlightId) {
