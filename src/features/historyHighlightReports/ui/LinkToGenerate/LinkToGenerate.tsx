@@ -3,13 +3,17 @@ import styles from './LinkToGenerate.module.css';
 import { RoutePath } from '../../../../shared/config/routes';
 
 export const LinkToGenerate = () => {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const navigateToGeneratorCSV = () => navigate(RoutePath.GeneratorCSV);
+	const navigateToGeneratorCSV = () => navigate(RoutePath.GeneratorCSV);
 
-  return (
-    <button onClick={navigateToGeneratorCSV} className={styles.link}>
-      Сгенерировать больше
-    </button>
-  );
+	return (
+		<button
+			data-testid="link-to-generate"
+			onClick={navigateToGeneratorCSV}
+			className={styles.link}
+		>
+			Сгенерировать больше
+		</button>
+	);
 };
