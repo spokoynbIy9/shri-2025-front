@@ -4,23 +4,24 @@ import styles from './CrossButton.module.css';
 import classNames from 'classnames';
 
 interface CrossButtonProps {
-  onClick: () => void;
+	onClick: () => void;
 
-  specific_type?: 'default' | 'modal';
+	specific_type?: 'default' | 'modal';
 }
 
 export const CrossButton: FC<CrossButtonProps> = ({
-  onClick,
-  specific_type,
+	onClick,
+	specific_type,
 }) => {
-  return (
-    <button
-      className={classNames(styles.btn, {
-        [styles.btn_modal]: specific_type === 'modal',
-      })}
-      onClick={onClick}
-    >
-      <img src={cross} alt="" />
-    </button>
-  );
+	return (
+		<button
+			data-testid="cross-button"
+			className={classNames(styles.btn, {
+				[styles.btn_modal]: specific_type === 'modal',
+			})}
+			onClick={onClick}
+		>
+			<img src={cross} alt="" />
+		</button>
+	);
 };
