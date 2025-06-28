@@ -6,37 +6,42 @@ import { getCorrectTitleButton } from '../../lib/helpers/getCorrectTitleButton';
 import type { ProcessingKit } from '../../lib/types/processingKit';
 
 interface ButtonProps {
-  title: string;
+	title: string;
 
-  specific_type?: 'default' | 'upload';
-  processingKit?: ProcessingKit;
+	specific_type?: 'default' | 'upload';
+	processingKit?: ProcessingKit;
 
-  onClick: () => void;
+	onClick: () => void;
 }
 
 export const Button: FC<ButtonProps> = ({
-  title,
-  processingKit,
-  specific_type,
+	title,
+	processingKit,
+	specific_type,
 
-  onClick,
+	onClick,
 }) => {
-  const { isProcessing, isFinishedProcessing, hasError, filename } =
-    processingKit ?? {};
+	const { isProcessing, isFinishedProcessing, hasError, filename } =
+		processingKit ?? {};
 
-  return (
-    <button
-      onClick={onClick}
-      className={classNames(styles.btn, {
-        [styles.btn__uploadType]: specific_type === 'upload',
-        [styles.btn__failed]: hasError,
-        [styles.btn__processing]: isProcessing,
-        [styles.btn__finishedProcessing]: isFinishedProcessing,
-        [styles.btn__uploaded]: !hasError && !isFinishedProcessing && filename,
-        [styles.btn__disabled]: filename,
-      })}
-    >
-      {isProcessing ? <Loader /> : getCorrectTitleButton(title, processingKit)}
-    </button>
-  );
+	return (
+		<button
+			onClick={onClick}
+			className={classNames(styles.btn, {
+				[styles.btn__uploadType]: specific_type === 'upload',
+				[styles.btn__failed]: hasError,
+				[styles.btn__processing]: isProcessing,
+				[styles.btn__finishedProcessing]: isFinishedProcessing,
+				[styles.btn__uploaded]:
+					!hasError && !isFinishedProcessing && filename,
+				[styles.btn__disabled]: filename,
+			})}
+		>
+			{isProcessing ? (
+				<Loader />
+			) : (
+				getCorrectTitleButton(title, processingKit)
+			)}
+		</button>
+	);
 };
