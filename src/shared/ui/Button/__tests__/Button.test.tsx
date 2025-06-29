@@ -3,8 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { Button } from '../Button';
 import { useState } from 'react';
 
-describe('ButtonWithLoader', () => {
-	it('Отображение лоадера во время обработки', async () => {
+describe('Отображение индикатора загрузки в компоненте Button', () => {
+	it('Показывает индикатор загрузки при активации обработки', async () => {
 		const Wrapper = () => {
 			const [isProcessing, setIsProcessing] = useState(false);
 

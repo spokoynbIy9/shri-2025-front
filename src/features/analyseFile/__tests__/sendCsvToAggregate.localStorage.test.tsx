@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMockFile } from '../../../shared/lib/test-utils';
-import { useAnalyseStore } from '../../../features/analyseFile';
-import { HIGHLIGHTS_KEY } from '../model/utils/localStorage';
-import type { HighlightReport } from '../model/types';
+import { useAnalyseStore } from '..';
+import { HIGHLIGHTS_KEY } from '../../../entities/highlight/model/utils/localStorage';
+import type { HighlightReport } from '../../../entities/highlight/model/types';
 
-describe('LocalStorage', () => {
+describe('Сохранение истории анализа в localStorage по окончании запроса', () => {
 	beforeEach(() => {
 		localStorage.clear();
 		vi.resetAllMocks();
 	});
 
-	it('Складывается ли запись в LocalStorage', async () => {
+	it('Сохраняет запись в localStorage после успешной обработки CSV-файла', async () => {
 		const mockDto = JSON.stringify({
 			total_spend_galactic: 100,
 			rows_affected: 1,
