@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from 'vitest';
-import { AnalyseBlock } from './AnalyseBlock';
+import { AnalyseBlock } from '../AnalyseBlock';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createMockFile } from '../../../../shared/lib/test-utils';
-import { fakeHighlights } from './__tests__/fakeHighlights';
+import { createMockFile } from '../../../../../shared/lib/test-utils';
+import { fakeHighlights } from './fakeHighlights';
 
-vi.mock('../../../../entities/highlight/model/store', () => {
+vi.mock('../../../../../entities/highlight/model/store', () => {
 	return {
 		useHighlightReportStore: vi.fn((selector) =>
 			selector({
@@ -36,14 +36,14 @@ const analyseState = {
 	setError: vi.fn(),
 };
 
-vi.mock('../../../../features/analyseFile/model/store', () => {
+vi.mock('../../../../../features/analyseFile/model/store', () => {
 	return {
 		useAnalyseStore: vi.fn((selector) => selector(analyseState)),
 	};
 });
 
-describe('AnalyseBlock', () => {
-	it('Возвращение к изначальному состоянию (хайлаты пусты и нет подгруженного файла)', async () => {
+describe('Сброс состояния интерфейса при нажатии на кнопку очистки', () => {
+	it('Очищает подгруженный файл и список хайлайтов при нажатии на кнопку очистки', async () => {
 		const { getByTestId, rerender } = render(<AnalyseBlock />);
 
 		const inputUpload = getByTestId('input-upload-csv-file');
