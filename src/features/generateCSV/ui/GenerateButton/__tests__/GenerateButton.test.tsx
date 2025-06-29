@@ -1,10 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useGenerateStore } from '../../model/store';
-import { render, screen } from '@testing-library/react';
-import { GenerateButton } from './GenerateButton';
-import userEvent from '@testing-library/user-event';
+import { useGenerateStore } from '../../../model/store';
+import { clickGenerateButton } from './utils/clickGenerateButton';
 
-describe('GenerateButton', () => {
+describe('Генерация CSV-файла по клику на кнопку', () => {
 	beforeEach(() => {
 		useGenerateStore.setState({
 			isProcessing: false,
@@ -13,7 +11,7 @@ describe('GenerateButton', () => {
 		});
 	});
 
-	it('Успешная генерация файла', async () => {
+	it('Отправляется запрос и запускается загрузка файла при успешной генерации', async () => {
 		const fakeBlob = new Blob(['csv content'], { type: 'text/csv' });
 		const fakeUrl = 'blob:http://localhost/fake-url';
 
@@ -53,52 +51,43 @@ describe('GenerateButton', () => {
 			}
 		);
 
-		render(
-			<GenerateButton
-				isGenerating={false}
-				isFinishedGenerate={false}
-				hasError={false}
-			/>
-		);
-
-		const generateButton = screen.getByRole('button', {
-			name: /начать генерацию/i,
-		});
-
-		await userEvent.click(generateButton);
+		await clickGenerateButton();
 
 		expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/report?'));
 		expect(createObjectURLMock).toHaveBeenCalledWith(fakeBlob);
 		expect(clickMock).toHaveBeenCalled();
 		expect(revokeObjectURLMock).toHaveBeenCalledWith(fakeUrl);
 	});
+});
 
-	it('Обработка ошибки при генерации', async () => {
-		global.fetch = vi.fn().mockResolvedValueOnce({
-			ok: false,
+describe('Обработка ошибок при генерации', () => {
+	beforeEach(() => {
+		useGenerateStore.setState({
+			isProcessing: false,
+			isFinished: false,
+			error: null,
 		});
+	});
 
+	const mockStoreSetters = () => {
 		const mockSetError = vi.fn();
 		const mockSetProcessingMock = vi.fn();
-
 		useGenerateStore.setState({
 			...useGenerateStore.getState(),
 			setError: mockSetError,
 			setIsProcessing: mockSetProcessingMock,
 		});
+		return { mockSetError, mockSetProcessingMock };
+	};
 
-		render(
-			<GenerateButton
-				isGenerating={false}
-				isFinishedGenerate={false}
-				hasError={false}
-			/>
-		);
-
-		const generateButton = screen.getByRole('button', {
-			name: /начать генерацию/i,
+	it('Показывается сообщение об ошибке, если генерация завершилась неудачно (ответ не ok)', async () => {
+		global.fetch = vi.fn().mockResolvedValueOnce({
+			ok: false,
 		});
-		await userEvent.click(generateButton);
+
+		const { mockSetError, mockSetProcessingMock } = mockStoreSetters();
+
+		await clickGenerateButton();
 
 		expect(mockSetError).toHaveBeenCalledWith(
 			expect.stringContaining('Ошибка')
@@ -106,31 +95,13 @@ describe('GenerateButton', () => {
 		expect(mockSetProcessingMock).toHaveBeenCalledWith(false);
 	});
 
-	it('Обработка ошибок генерации, если возникли проблемы с сетью/backend', async () => {
+	it('Показывается сообщение об ошибке, если запрос завершился с исключением (например, ошибка сети)', async () => {
 		const errorMessage = 'Network error';
 		global.fetch = vi.fn().mockRejectedValue(new Error(errorMessage));
 
-		const mockSetError = vi.fn();
-		const mockSetProcessingMock = vi.fn();
+		const { mockSetError, mockSetProcessingMock } = mockStoreSetters();
 
-		useGenerateStore.setState({
-			...useGenerateStore.getState(),
-			setError: mockSetError,
-			setIsProcessing: mockSetProcessingMock,
-		});
-
-		render(
-			<GenerateButton
-				isGenerating={false}
-				isFinishedGenerate={false}
-				hasError={false}
-			/>
-		);
-
-		const generateButton = screen.getByRole('button', {
-			name: /начать генерацию/i,
-		});
-		await userEvent.click(generateButton);
+		await clickGenerateButton();
 
 		expect(mockSetError).toHaveBeenCalledWith(errorMessage);
 		expect(mockSetProcessingMock).toHaveBeenCalledWith(false);

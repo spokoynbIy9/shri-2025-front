@@ -19,7 +19,7 @@ import {
 } from '../../../model/types';
 import { screen } from '@testing-library/react';
 import { HighlightsList } from '../HighlightsList';
-import { getStubHighlightReportStore } from './getStubHighlightReportStore';
+import { getStubHighlightReportStore } from './utils/getStubHighlightReportStore';
 
 vi.mock('../../../model/store', () => {
 	return {
