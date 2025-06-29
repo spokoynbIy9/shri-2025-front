@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMockFile } from '../../../shared/lib/test-utils';
 import { useAnalyseStore } from '../model/store';
 
-describe('processing errors in sendCsvToAggregate', () => {
+describe('Обработка ошибок в функции sendCsvToAggregate', () => {
 	const mockSetError = vi.fn();
 	const mockSetIsProcessing = vi.fn();
 
@@ -19,7 +19,7 @@ describe('processing errors in sendCsvToAggregate', () => {
 		mockSetIsProcessing.mockReset();
 	});
 
-	it('Обработка ошибок при проблемами с сетью/backend', async () => {
+	it('Обработка ошибки сети при запросе на анализ файла', async () => {
 		const file = createMockFile('test.csv');
 
 		const errorMessage = 'Network error';
@@ -33,7 +33,7 @@ describe('processing errors in sendCsvToAggregate', () => {
 		expect(mockSetError).toHaveBeenCalledWith(errorMessage);
 	});
 
-	it('Обработка ошибок при отправке файла или пустого ответ', async () => {
+	it('Обработка ошибки при неудачном ответе сервера или пустом теле из запроса на анализ файла', async () => {
 		const file = createMockFile('test.csv');
 
 		global.fetch = vi.fn().mockResolvedValue({
