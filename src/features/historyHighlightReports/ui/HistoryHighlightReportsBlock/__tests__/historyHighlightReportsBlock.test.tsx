@@ -48,14 +48,14 @@ const highlightsForFirstReport: [string, string][] = [
 	['цивилизация с минимальными расходами', 'humans'],
 ];
 
-describe('HistoryHighlightReportsBlock', () => {
+describe('История отчётов с хайлайтами — HistoryHighlightReportsBlock', () => {
 	beforeEach(() => {
 		useHighlightReportStore.setState({ highlightReports: [] });
 
 		localStorage.setItem(HIGHLIGHTS_KEY, JSON.stringify(mockData));
 	});
 
-	it('Загружает данные из localStorage и отображает список', async () => {
+	it('Загружает и отображает список отчётов из localStorage при инициализации', async () => {
 		render(
 			<MemoryRouter>
 				<HistoryHighlightReportsBlock />
@@ -66,7 +66,7 @@ describe('HistoryHighlightReportsBlock', () => {
 		expect(filename).toBeInTheDocument();
 	});
 
-	it('Удаляет отдельную запись из истории', async () => {
+	it('Удаляет отдельный отчёт при клике на кнопку удаления', async () => {
 		render(
 			<MemoryRouter>
 				<HistoryHighlightReportsBlock />
@@ -87,7 +87,7 @@ describe('HistoryHighlightReportsBlock', () => {
 		expect(screen.getByText(/test.csv/i)).toBeInTheDocument();
 	});
 
-	it('При клике на пункт списка открывается модальное окно с хайлайтами', async () => {
+	it('Открывает модальное окно с хайлайтами по клику на отчёт', async () => {
 		render(
 			<MemoryRouter>
 				<HistoryHighlightReportsBlock />
@@ -112,7 +112,7 @@ describe('HistoryHighlightReportsBlock', () => {
 		});
 	});
 
-	it('Удаляет все записи из истории', async () => {
+	it('Удаляет всю историю отчётов по нажатию кнопки очистки', async () => {
 		render(
 			<MemoryRouter>
 				<HistoryHighlightReportsBlock />
