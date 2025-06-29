@@ -4,8 +4,8 @@ import { renderWithRouter } from '../../../../../shared/lib/test-utils';
 import { HistoryHighlightReportsBlock } from '../HistoryHighlightReportsBlock';
 import userEvent from '@testing-library/user-event';
 
-describe('NavigationFromHistory', () => {
-	it('Переход на страничку генерации файлов', async () => {
+describe('Роутинг: переход со страницы истории на другие разделы', () => {
+	it('Осуществляется переход на страницу генерации CSV по клику из истории', async () => {
 		const { history, getByTestId } = renderWithRouter(
 			<HistoryHighlightReportsBlock />,
 			[`${RoutePath.History}`]

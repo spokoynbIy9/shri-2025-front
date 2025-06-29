@@ -4,8 +4,8 @@ import { Header } from '../ui/Header';
 import { RoutePath } from '../../../shared/config/routes';
 import userEvent from '@testing-library/user-event';
 
-describe('HeaderNavigation', () => {
-	it('Переход на страничку генерации файлов', async () => {
+describe('Корректная работа роутинга при переходе по ссылкам из Header', () => {
+	it('Осуществляется переход на страницу генерации CSV по клику в Header', async () => {
 		const { history, getByTestId } = renderWithRouter(<Header />);
 		const pathToGenerate = RoutePath.GeneratorCSV;
 		const linkToGenerate = getByTestId(`nav-link-to-${pathToGenerate}`);
@@ -15,7 +15,7 @@ describe('HeaderNavigation', () => {
 		expect(history.location.pathname).toBe(pathToGenerate);
 	});
 
-	it('Переход на страничку с анализом файлов', async () => {
+	it('Осуществляется переход на страницу анализа CSV по клику в Header', async () => {
 		const { history, getByTestId } = renderWithRouter(<Header />);
 		const pathToAnalyse = RoutePath.AnalyseCSV;
 		const linkToAnalyse = getByTestId(`nav-link-to-${pathToAnalyse}`);
@@ -25,7 +25,7 @@ describe('HeaderNavigation', () => {
 		expect(history.location.pathname).toBe(pathToAnalyse);
 	});
 
-	it('Переход на страничку с историей', async () => {
+	it('Осуществляется переход на страницу истории анализа по клику в Header', async () => {
 		const { history, getByTestId } = renderWithRouter(<Header />);
 		const pathToHistory = RoutePath.History;
 		const linkToHistory = getByTestId(`nav-link-to-${pathToHistory}`);
